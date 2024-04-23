@@ -47,12 +47,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "nextamplifiedd97a0ce3",
+            "todoFunction",
             {
               "Fn::Join": [
                 "",
                 [
-                  "nextamplifiedd97a0ce3",
+                  "todoFunction",
                   "-",
                   {
                     "Ref": "env"
@@ -89,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "nextamplifiedLambdaRole6fd7b9e0",
+            "nextamplifiedLambdaRole7b22e7a1",
             {
               "Fn::Join": [
                 "",
                 [
-                  "nextamplifiedLambdaRole6fd7b9e0",
+                  "nextamplifiedLambdaRole7b22e7a1",
                   "-",
                   {
                     "Ref": "env"

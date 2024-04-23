@@ -1,37 +1,48 @@
-'use client';
+"use client"
 
-import { Button, Flex, Heading, Image, Text } from '@aws-amplify/ui-react';
+import { useEffect } from 'react';
+import { CheckboxField } from '@aws-amplify/ui-react';
+import { Grid, TextField } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
+import { Amplify } from 'aws-amplify';
+import amplifyconfig from '../amplifyconfiguration.json';
+import { post,get } from 'aws-amplify/api';
+
+Amplify.configure(amplifyconfig);
+
+async function getTodo() {
+  try {
+    const restOperation = get({ 
+      apiName: 'todoApi',
+      path: '/todo/1' 
+    });
+    const response = await restOperation.response;
+    console.log('GET call succeeded: ', response.body);
+  } catch (e) {
+    console.log('GET call failed: ', e);
+  }
+}
+
 export default function Home() {
+  useEffect(() => {
+    async function fetchData() {
+      await getTodo();
+    }
+    fetchData();
+  }, []); // Khi component được tạo, fetchData sẽ được gọi một lần
+
   return (
-    <Flex
-      direction={{ base: 'column', large: 'row' }}
-      maxWidth="32rem"
-      padding="1rem"
-      width="100%"
+    <Grid
+      gap="var(--amplify-space-large)"
+      templateColumns="repeat(auto-fill, minmax(280px, 1fr))"
     >
-      <Image
-        alt="Abstract art"
-        height="21rem"
-        src="https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=80&raw_url=true&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987"
-        width="100%"
+      <TextField label="Example text field" />
+      <TextField
+        label="Example text field (with custom ID)"
+        id="custom-input-id"
       />
-      <Flex justifyContent="space-between" direction="column">
-        <Heading level={3}>Abstract art</Heading>
-        <Text>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Volutpat
-          sed cras ornare arcu dui. Duis aute irure dolor in reprehenderit in
-          voluptate velit esse.
-        </Text>
-        <Button
-          variation="primary"
-          onClick={() => alert('Added item to cart!')}
-        >
-          Add to Cart
-        </Button>
-      </Flex>
-    </Flex>
+      <CheckboxField label="Example checkbox" name="example" value="yes" />
+    </Grid>
   );
 }
